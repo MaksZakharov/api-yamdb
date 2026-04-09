@@ -1,7 +1,8 @@
 from django.contrib import admin
 
-from reviews.models import Category, Genre, Title, GenreTitle
+from reviews.models import Category, Genre, Title, GenreTitle, Review
 
+admin.site.register(Review)
 
 class GenreTitleInline(admin.TabularInline):
     model = GenreTitle
