@@ -156,5 +156,6 @@ _PATCH_ -> `/api/v1/titles/{title_id}/reviews/{review_id}/comments/{comment_id}/
 
 ## 🎥 Демо проекта
 
-YouTube: https://youtu.be/hVHqRS3H3l0?si=HIrHkz8BXZCMO2zS
-RuTube: https://rutube.ru/video/private/91198163cf354122aee9c4764e140404/?r=wd&p=C9VTN_F8hM5UcZV_bzBOUg
+- YouTube: https://youtu.be/hVHqRS3H3l0?si=HIrHkz8BXZCMO2zS
+
+- RuTube: https://rutube.ru/video/private/91198163cf354122aee9c4764e140404/?r=wd&p=C9VTN_F8hM5UcZV_bzBOUg
