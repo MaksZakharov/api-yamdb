@@ -1,161 +1,104 @@
-## Summary: ##
-    Привет! 
-_Данный проект - YaMDb, который собирает отзывы пользователей на различные произведения._ 
+# YaMDb API
 
-**Проект разработан на Django REST Framework, работает посредством API запросов.**
+REST API сервис для сбора отзывов пользователей на произведения (книги, фильмы, музыка).
 
-Представления построены на вьюсетах и дженериках. Используются дефолтные роутеры и вложенные.
+## Описание проекта
 
-**Аутентификация действует через JWT (JSON Web Token).**
+Проект решает задачу централизованного хранения и обработки пользовательских отзывов на произведения.
 
-_В проекте написаны разные модели, например:_
-- **Произведения**,
-- **Жанры** и **Категории** произведений,
-- **Отзывы** и **Комментарии** к ним,
-- Кастомная модель **Юзера**.
+Позволяет:
+- хранить произведения с категоризацией (жанры, категории)
+- оставлять отзывы и комментарии
+- формировать рейтинг на основе пользовательских оценок
+- управлять доступом через роли пользователей
 
-_Так же реализованы:_ 
-- Права доступа (пермишены),
-- Пагинация, 
-- Поисковая фильтрация,
-- Модель пользователя с различными ролями (от админов и модераторов до простых пользователей).
+## Что реализовал
 
----
+- Разработал REST API на Django REST Framework
+- Спроектировал модели данных:
+  - произведения, жанры, категории
+  - отзывы и комментарии
+  - кастомная модель пользователя с ролями
+- Реализовал бизнес-логику:
+  - рейтинги произведений
+  - вложенные ресурсы (reviews → comments)
+- Настроил аутентификацию (JWT)
+- Реализовал систему ролей (user, moderator, admin)
+- Настроил permissions для разграничения доступа
+- Реализовал фильтрацию, поиск и пагинацию
+- Настроил nested routing (drf-nested-routers)
+- Организовал архитектуру на ViewSets и Generic Views
+- Настроил тестирование (pytest) и линтинг (flake8)
 
-## Стек технологий: ##
+## Основные возможности
 
-	•	Python 3.12
-	•	Django 5.1.1 — основной фреймворк
-	•	Django REST framework 3.15.2 — построение API
-	•	Simple JWT 5.4.0 — аутентификация по токену
-	•	drf-nested-routers 0.94.2 — вложенные маршруты
-	•	django-filter 25.1 — фильтрация запросов
-	•	pytest / pytest-django — тестирование
-	•	flake8 — линтинг кода
-	•	Pillow — работа с изображениями
-	•	SQLite — база данных
+- Регистрация и аутентификация пользователей
+- CRUD для произведений, категорий и жанров
+- Создание отзывов и комментариев
+- Система рейтингов
+- Ролевая модель доступа
+- Фильтрация и поиск
+- Пагинация результатов
 
-Полный список зависимостей см. в (requirements.txt)
+## Технологический стек
 
----
+Backend: Python 3.12, Django, Django REST Framework  
+Аутентификация: JWT (Simple JWT)  
+База данных: SQLite (dev)  
+Инструменты: django-filter, drf-nested-routers  
+Тестирование: pytest, pytest-django  
+Качество кода: flake8  
 
-## **_Как запустить проект:_** ##
+## Установка и запуск
 
-**_Клонировать репозиторий и перейти в него в командной строке:_**
+```bash
+git clone https://github.com/IvanP1astun/api-yamdb.git
+cd api-yamdb
+```
 
-    git clone https://github.com/IvanP1astun/api-yamdb.git
+### Виртуальное окружение
 
-    cd api-yamdb
+```bash
+python -m venv venv
+source venv/bin/activate  # Linux / macOS
+venv\Scripts\activate     # Windows
+```
 
-**_Cоздать и активировать виртуальное окружение:_**
+### Установка зависимостей
 
-***Для macOS / Linux:***
+```bash
+pip install -r requirements.txt
+```
 
-    python3 -m venv env
+### Миграции и запуск
 
-    source env/bin/activate
+```bash
+python manage.py migrate
+python manage.py runserver
+```
 
-***Для Windows:***
+## Примеры API
 
-    python -m venv env
+Регистрация пользователя  
+POST /api/v1/auth/signup/
 
-    env/Scripts/activate
+Получение произведения  
+GET /api/v1/titles/{id}/
 
+Обновление комментария  
+PATCH /api/v1/titles/{title_id}/reviews/{review_id}/comments/{comment_id}/
 
-**_Установить зависимости из файла requirements.txt:_**
+## Планы по доработке
 
-    python (python3) -m pip install --upgrade pip
+- Переход на PostgreSQL
+- Добавление Docker и docker-compose
+- Настройка CI/CD
+- Добавление кэширования (Redis)
+- Расширение тестового покрытия
+- Деплой проекта
 
-    pip install -r requirements.txt
-    
-
-**_Выполнить миграции:_**
-
-    python (python3) manage.py migrate
-    
-
-**_Запустить проект:_**
-
-    python (python3) manage.py runserver
-
----
-
-## Примеры запросов и ответов: ##
-
-### Запрос: ###
-
-_POST_ -> `/api/v1/auth/signup/`
-
-### Тело запроса: ###
-
-    {
-        "email": "user@example.com",
-        "username": "^w\\Z"
-    }
-
-### Ответ: ###
-
-    {
-        "email": "string",
-        "username": "string"
-    }
-
-### Запрос: ###
-
-_GET_ -> `/api/v1/titles/{titles_id}/`
-
-### Тело запроса: ###
-
-    {
-        "text": "string"
-    }
-
-### Ответ: ###
-
-    {
-        "id": 0,
-        "name": "string",
-        "year": 0,
-        "rating": 0,
-        "description": "string",
-        "genre": [...],
-        "category": {
-          "name": "string",
-          "slug": "^-$"
-        }
-    }
-
-### Запрос: ###
-
-_PATCH_ -> `/api/v1/titles/{title_id}/reviews/{review_id}/comments/{comment_id}/`
-
-### Тело запроса: ###
-
-    {
-        "text": "string"
-    }
-
-### Ответ: ###
-
-    {
-        "id": 0,
-        "text": "string",
-        "author": "string",
-        "pub_date": "2019-08-24T14:15:22Z"
-    }
-
----
-
-## Авторы проекта: ##
-
-Невероятные и непревзойдённые (как и все) студенты Яндекс Практикума :)
+## Авторы
 
 - https://github.com/IvanP1astun
 - https://github.com/MaksZakharov
 - https://github.com/Marakes
-
-## 🎥 Демо проекта
-
-- YouTube: https://youtu.be/hVHqRS3H3l0?si=HIrHkz8BXZCMO2zS
-
-- RuTube: https://rutube.ru/video/private/91198163cf354122aee9c4764e140404/?r=wd&p=C9VTN_F8hM5UcZV_bzBOUg
